@@ -11,7 +11,8 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <form action="#" method="post">
+                <form action="/" method="post">
+                    {% csrf_token %}
                     <input type="search" name="search" placeholder="O que está procurando...">
                     <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </form>
@@ -24,13 +25,14 @@
 
 <div class="receipe-post-search mb-80">
     <div class="container">
-        <form action="#" method="post">
+        <form action="/" method="post">
+            {% csrf_token %}
             <div class="row">
                 <div class="col-12 col-lg-5">
-                    <select name="select1" id="select1">
-                        <option value="1">Comida típica brasileira</option>
-                        <option value="1">Massas</option>
-                        <option value="1">Veganas</option>
+                    <select name="category_id" id="category_id">
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.category_name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-12 col-lg-2 text-right">
@@ -44,7 +46,7 @@
     <div class="row">
         <div class="col-12">
             <div class="receipe-slider owl-carousel">
-                <img src="{% static 'img/bg-img/tomate_banner.jpg' %}">
+                <img src="{{ recipe.img }}">
             </div>
         </div>
     </div>
@@ -55,13 +57,13 @@
         <div class="row">
             <div class="col-12 col-md-8">
                 <div class="receipe-headline my-5">
-                    <span>30 de Fevereiro, 2000</span>
-                    <h2>Nome da receita</h2>
+                    <span>{{ recipe.pub_date }}</span>
+                    <h2>{{ recipe.name }}</h2>
                     <div class="receipe-duration">
-                        <h6>Preparo: 15 minutos</h6>
-                        <h6>Rendimento: 2 porçoes</h6>
-                        <h6>Categoria: categoria</h6>
-                        <h6>Por: Pessoa</h6>
+                        <h6>Preparo: {{ recipe.ready_time_minutes }} minutos</h6>
+                        <h6>Rendimento: {{ recipe.amount }} porçoes</h6>
+                        <h6>Categoria: {{ recipe.category.category_name }}</h6>
+                        <h6>Por: {{ recipe.amount_by }}</h6>
                     </div>
                 </div>
             </div>
@@ -69,22 +71,14 @@
             <div class="row">
                 <div class="col-12 col-lg-8">
                     <div class="single-preparation-step d-flex">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui.
-                            Suspendisse potenti. Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis.
-                            Cras a tortor enim. Phasellus posuere vestibulum ipsum, eget lobortis purus. Orci varius
-                            natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
+                        <p>{{ recipe.description }}</p>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="ingredients">
-                        <h4>Ingredientees</h4>
+                        <h4>Ingredientes</h4>
                         <div class="ingredients">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui.
-                                Suspendisse potenti. Vestibulum ac pellentesque tortor. Aenean congue sed metus in
-                                iaculis. Cras a tortor enim. Phasellus posuere vestibulum ipsum, eget lobortis purus.
-                                Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-                            </p>
-                            </p>
+                            <p>{{ recipe.ingredients }}</p>
                         </div>
                     </div>
                 </div>
